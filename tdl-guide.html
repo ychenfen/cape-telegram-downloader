@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDL Telegram下载器使用指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .warning-title {
+            color: #856404;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .warning-text {
+            color: #856404;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .method {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .method h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .step {
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .feature-list li:before {
+            content: "✅";
+            margin-right: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #718096;
+        }
+
+        .btn-secondary:hover {
+            background: #4a5568;
+        }
+
+        .highlight {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .content { padding: 20px; }
+            .code-block { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📱 TDL Telegram下载器</h1>
+            <p>专业的Telegram媒体下载工具使用指南</p>
+        </div>
+
+        <div class="content">
+            <div class="warning">
+                <div class="warning-title">⚠️ 重要说明</div>
+                <div class="warning-text">
+                    TDL是命令行工具，<strong>无法在网页中直接使用</strong>。需要下载到本地电脑运行。
+                    本页面提供详细的安装和使用指导。
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🚀 快速开始</h2>
+                
+                <div class="method">
+                    <h3>方法一：下载预编译版本（推荐）</h3>
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        访问TDL官方发布页面下载对应系统版本
+                    </div>
+                    <div class="code-block">
+# macOS/Linux用户
+wget https://github.com/iyear/tdl/releases/latest/download/tdl_Darwin_x86_64.tar.gz
+tar -xzf tdl_Darwin_x86_64.tar.gz
+
+# Windows用户
+# 下载 tdl_Windows_x86_64.zip 并解压</div>
+                    
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        将tdl文件移动到系统PATH或当前目录
+                    </div>
+                    
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        登录Telegram账号
+                    </div>
+                    <div class="code-block">./tdl login</div>
+                    
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        开始下载媒体文件
+                    </div>
+                    <div class="code-block"># 下载频道最新10个文件
+./tdl dl -u channelname -l 10
+
+# 下载指定聊天的所有媒体
+./tdl dl -c "ChatName"</div>
+                </div>
+
+                <div class="method">
+                    <h3>方法二：从源码编译</h3>
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        确保已安装Go 1.19+
+                    </div>
+                    
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        克隆并编译
+                    </div>
+                    <div class="code-block">git clone https://github.com/iyear/tdl.git
+cd tdl
+go build -o tdl .</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎯 主要功能</h2>
+                <ul class="feature-list">
+                    <li>下载频道和聊天中的媒体文件</li>
+                    <li>支持受保护的私有频道</li>
+                    <li>批量下载和断点续传</li>
+                    <li>消息导出为JSON格式</li>
+                    <li>成员列表导出</li>
+                    <li>文件上传到Telegram</li>
+                    <li>消息转发和路由</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>📖 常用命令</h2>
+                
+                <div class="highlight">
+                    <strong>登录账号：</strong>
+                    <div class="code-block">tdl login</div>
+                </div>
+
+                <div class="highlight">
+                    <strong>下载频道媒体：</strong>
+                    <div class="code-block"># 下载最新20个文件
+tdl dl -u channelname -l 20
+
+# 下载指定时间范围
+tdl dl -u channelname --from "2023-01-01" --to "2023-12-31"</div>
+                </div>
+
+                <div class="highlight">
+                    <strong>下载私聊媒体：</strong>
+                    <div class="code-block">tdl dl -c "用户名或聊天名" -l 50</div>
+                </div>
+
+                <div class="highlight">
+                    <strong>导出聊天记录：</strong>
+                    <div class="code-block">tdl chat export -c "聊天名" -o messages.json</div>
+                </div>
+
+                <div class="highlight">
+                    <strong>上传文件：</strong>
+                    <div class="code-block">tdl up -p "文件路径" -c "目标聊天"</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔗 相关链接</h2>
+                <a href="https://github.com/iyear/tdl" class="btn" target="_blank">📱 TDL官方仓库</a>
+                <a href="https://docs.iyear.me/tdl/" class="btn" target="_blank">📖 官方文档</a>
+                <a href="video-tools-hub.html" class="btn btn-secondary">🏠 返回工具平台</a>
+            </div>
+
+            <div class="section">
+                <h2>❓ 常见问题</h2>
+                
+                <div class="method">
+                    <h3>Q: 为什么不能在网页中使用？</h3>
+                    <p>A: TDL需要访问Telegram API和本地文件系统，出于安全考虑，浏览器不允许网页进行这些操作。</p>
+                </div>
+
+                <div class="method">
+                    <h3>Q: 如何下载受保护的频道内容？</h3>
+                    <p>A: 首先需要加入该频道，然后使用TDL登录你的账号即可下载。</p>
+                </div>
+
+                <div class="method">
+                    <h3>Q: 下载速度慢怎么办？</h3>
+                    <p>A: TDL的下载速度取决于你是否是Telegram Premium用户，Premium用户享有更快的下载速度。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
