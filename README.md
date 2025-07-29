@@ -120,12 +120,14 @@ open video-detector-enhanced.html
 # Paste webpage URL to detect videos
 ```
 
-#### 4. Telegram Downloads (TDL)
+#### 4. Telegram Downloads (TDL) - Local Installation Required
 ```bash
-cd tdl
-# Login to Telegram
+# TDL requires local installation - cannot run in browser
+# Visit the online TDL guide for detailed instructions:
+# https://ychenfen.github.io/cape-telegram-downloader/tdl-guide.html
+
+# Quick start (after installation):
 ./tdl login
-# Download from a chat
 ./tdl dl -u username -l 10
 ```
 
@@ -286,12 +288,14 @@ open video-detector-enhanced.html
 # 粘贴网页URL检测视频
 ```
 
-#### 4. Telegram下载（TDL）
+#### 4. Telegram下载（TDL）- 需要本地安装
 ```bash
-cd tdl
-# 登录Telegram
+# TDL需要本地安装 - 无法在浏览器中运行
+# 访问在线TDL指南获取详细说明：
+# https://ychenfen.github.io/cape-telegram-downloader/tdl-guide.html
+
+# 快速开始（安装后）：
 ./tdl login
-# 从聊天下载
 ./tdl dl -u username -l 10
 ```
 
