@@ -1,17 +1,17 @@
-# 🎬 Video Processing Tools Suite | 视频处理工具集
+# 🏖️ Cape & Telegram Downloader | 海角&Telegram下载器
 
 <div align="center">
 
-![GitHub stars](https://img.shields.io/github/stars/ychenfen/video-processing-tools?style=flat-square)
-![GitHub forks](https://img.shields.io/github/forks/ychenfen/video-processing-tools?style=flat-square)
-![GitHub license](https://img.shields.io/github/license/ychenfen/video-processing-tools?style=flat-square)
+![GitHub stars](https://img.shields.io/github/stars/ychenfen/cape-telegram-downloader?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/ychenfen/cape-telegram-downloader?style=flat-square)
+![GitHub license](https://img.shields.io/github/license/ychenfen/cape-telegram-downloader?style=flat-square)
 
 **[English](#english) | [中文](#中文)**
 
-*Comprehensive video processing tools for downloading, converting, and managing multimedia content*
+*Professional downloader suite for Cape websites and Telegram media with advanced M3U8 stream processing*
 
-### 🏖️ **Special Feature: Cape Website Video Downloader | 海角网站视频下载器**
-**✨ Optimized for Cape (海角) website video extraction with advanced M3U8 stream handling**
+### 🎯 **Dual Platform Support | 双平台专项支持**
+**🏖️ Cape Website Videos | 海角网站视频** • **📱 Telegram Media | Telegram媒体**
 
 </div>
 
@@ -21,7 +21,7 @@
 
 ### 🚀 Overview
 
-A powerful collection of video processing tools designed for downloading, converting, and managing multimedia content from various sources. This suite includes web-based interfaces, command-line utilities, and specialized downloaders for different video formats and platforms.
+A specialized downloader suite optimized for Cape (海角) websites and Telegram media content. Features advanced M3U8 stream processing, encrypted content handling, and comprehensive media management tools. Includes both user-friendly web interfaces and powerful command-line utilities.
 
 ### 📦 What's Included
 
@@ -187,7 +187,7 @@ This project is licensed under the MIT License - see individual tool licenses fo
 
 ### 🚀 概述
 
-这是一个强大的视频处理工具集，专为从各种来源下载、转换和管理多媒体内容而设计。该工具套件包含网页界面、命令行工具和针对不同视频格式及平台的专用下载器。
+专为海角网站和Telegram媒体内容优化的专业下载器套件。具备高级M3U8流处理、加密内容处理和全面的媒体管理工具。包含用户友好的网页界面和强大的命令行工具。
 
 ### 📦 包含内容
 
