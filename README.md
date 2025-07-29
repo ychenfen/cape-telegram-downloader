@@ -13,6 +13,9 @@
 ### 🎯 **Dual Platform Support | 双平台专项支持**
 **🏖️ Cape Website Videos | 海角网站视频** • **📱 Telegram Media | Telegram媒体**
 
+### 🌐 **Online Access | 在线访问**
+**🚀 [Launch Web Tools](https://ychenfen.github.io/cape-telegram-downloader/) | [启动网页工具](https://ychenfen.github.io/cape-telegram-downloader/)**
+
 </div>
 
 ---
