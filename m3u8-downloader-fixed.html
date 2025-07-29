@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U8 下载工具 - 修复版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .log-section {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 5px 0;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-time {
+            color: #90cdf4;
+            font-weight: bold;
+        }
+
+        .log-info {
+            color: #68d391;
+        }
+
+        .log-error {
+            color: #f56565;
+        }
+
+        .log-warning {
+            color: #fbd38d;
+        }
+
+        .progress-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e9ecef;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        .method-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .method-tab {
+            padding: 10px 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .method-tab.active {
+            border-color: #667eea;
+            background: #f0f4ff;
+            color: #667eea;
+        }
+
+        .method-content {
+            display: none;
+        }
+
+        .method-content.active {
+            display: block;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeaa7;
+        }
+
+        .alert-info {
+            background: #cce7ff;
+            color: #004085;
+            border-color: #b8daff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .command-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+
+            .method-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 M3U8 下载工具 - 修复版</h1>
+            <p>专门解决小鹅通等平台的下载问题</p>
+        </div>
+
+        <div class="main-content">
+            <!-- 下载方法选择 -->
+            <div class="method-tabs">
+                <div class="method-tab active" data-method="external" onclick="switchMethod('external')">
+                    ⚡ 外部工具下载（推荐）
+                </div>
+                <div class="method-tab" data-method="browser" onclick="switchMethod('browser')">
+                    🌐 浏览器下载（实验性）
+                </div>
+                <div class="method-tab" data-method="manual" onclick="switchMethod('manual')">
+                    📋 手动下载教程
+                </div>
+            </div>
+
+            <!-- M3U8 URL 输入 -->
+            <div class="input-section">
+                <h3>🎯 M3U8 链接输入</h3>
+                <div class="input-group">
+                    <input type="text" class="input-field" id="m3u8Url" placeholder="请输入M3U8链接..." value="https://v-tos-k.xiaoeknow.com/522ff1e0vodcq1252524126/7a59a0e03560136624168819060/playlist_eof.m3u8?sign=ba8b7c3591a3b084483d05410b865545&t=6879b2c4&us=tVrjrtJRds&time=1752762884748&uuid=u_67b6ca6a692ce_GP8lCQ0jWy">
+                    <button class="btn btn-primary" onclick="analyzeM3U8()">🔍 分析</button>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-success" onclick="startDownload()">⬇️ 开始下载</button>
+                    <button class="btn btn-warning" onclick="testLink()">🧪 测试链接</button>
+                    <button class="btn btn-danger" onclick="clearAll()">🗑️ 清空</button>
+                </div>
+            </div>
+
+            <!-- 外部工具方法 -->
+            <div id="external-method" class="method-content active">
+                <div class="input-section">
+                    <h3>⚡ 外部工具下载方法</h3>
+                    <p style="margin-bottom: 15px; color: #666;">此方法成功率最高，推荐使用</p>
+                    
+                    <div class="alert alert-info">
+                        <h4>📋 方法一：使用 FFmpeg</h4>
+                        <div class="command-box" id="ffmpegCommand">
+                            等待生成命令...
+                        </div>
+                        <button class="btn btn-primary" onclick="copyCommand('ffmpeg')">复制FFmpeg命令</button>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <h4>📋 方法二：使用 yt-dlp</h4>
+                        <div class="command-box" id="ytdlpCommand">
+                            等待生成命令...
+                        </div>
+                        <button class="btn btn-primary" onclick="copyCommand('ytdlp')">复制yt-dlp命令</button>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <h4>📋 方法三：使用 N_m3u8DL-RE</h4>
+                        <div class="command-box" id="n_m3u8dl_command">
+                            等待生成命令...
+                        </div>
+                        <button class="btn btn-primary" onclick="copyCommand('n_m3u8dl')">复制N_m3u8DL-RE命令</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 浏览器方法 -->
+            <div id="browser-method" class="method-content">
+                <div class="input-section">
+                    <h3>🌐 浏览器下载方法</h3>
+                    <p style="margin-bottom: 15px; color: #666;">实验性功能，可能会遇到CORS限制</p>
+                    
+                    <div class="alert alert-warning">
+                        <h4>⚠️ 注意事项</h4>
+                        <ul>
+                            <li>小鹅通等平台可能有CORS限制，浏览器下载可能失败</li>
+                            <li>建议优先使用外部工具方法</li>
+                            <li>如果遇到问题，请查看控制台日志</li>
+                        </ul>
+                    </div>
+
+                    <div class="progress-section hidden" id="progressSection">
+                        <h4>📊 下载进度</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">准备中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 手动下载教程 -->
+            <div id="manual-method" class="method-content">
+                <div class="input-section">
+                    <h3>📋 手动下载教程</h3>
+                    
+                    <div class="alert alert-info">
+                        <h4>🎯 推荐工具</h4>
+                        <ol>
+                            <li><strong>IDM (Internet Download Manager)</strong> - Windows平台最佳选择</li>
+                            <li><strong>Downie</strong> - macOS平台优秀选择</li>
+                            <li><strong>ffmpeg</strong> - 跨平台命令行工具</li>
+                            <li><strong>N_m3u8DL-RE</strong> - 专业M3U8下载工具</li>
+                        </ol>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <h4>📝 详细步骤</h4>
+                        <ol>
+                            <li><strong>安装下载工具</strong>：下载并安装上述任一工具</li>
+                            <li><strong>复制M3U8链接</strong>：确保链接完整且有效</li>
+                            <li><strong>添加到下载队列</strong>：将链接粘贴到下载工具中</li>
+                            <li><strong>设置输出格式</strong>：选择MP4等常见格式</li>
+                            <li><strong>开始下载</strong>：点击开始，等待完成</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 日志输出 -->
+            <div class="log-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h4>📋 操作日志</h4>
+                    <button class="btn btn-danger" onclick="clearLog()" style="padding: 5px 10px; font-size: 12px;">清空日志</button>
+                </div>
+                <div id="logContainer">
+                    <div class="log-entry">
+                        <span class="log-time">[启动]</span>
+                        <span class="log-info">M3U8 下载工具 - 修复版已就绪</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMethod = 'external';
+
+        // 切换下载方法
+        function switchMethod(method) {
+            currentMethod = method;
+            
+            // 更新标签状态
+            document.querySelectorAll('.method-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-method="${method}"]`).classList.add('active');
+            
+            // 显示对应内容
+            document.querySelectorAll('.method-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${method}-method`).classList.add('active');
+            
+            addLog(`切换到${method}下载方法`, 'info');
+        }
+
+        // 添加日志
+        function addLog(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            
+            const time = new Date().toLocaleTimeString();
+            const logClass = type === 'error' ? 'log-error' : type === 'warning' ? 'log-warning' : 'log-info';
+            
+            logEntry.innerHTML = `
+                <span class="log-time">[${time}]</span>
+                <span class="${logClass}">${message}</span>
+            `;
+            
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // 清空日志
+        function clearLog() {
+            const logContainer = document.getElementById('logContainer');
+            logContainer.innerHTML = `
+                <div class="log-entry">
+                    <span class="log-time">[启动]</span>
+                    <span class="log-info">日志已清空</span>
+                </div>
+            `;
+        }
+
+        // 分析M3U8链接
+        async function analyzeM3U8() {
+            const url = document.getElementById('m3u8Url').value.trim();
+            if (!url) {
+                addLog('请输入M3U8链接', 'error');
+                return;
+            }
+
+            addLog('开始分析M3U8链接...', 'info');
+            
+            try {
+                // 生成各种下载命令
+                generateCommands(url);
+                addLog('M3U8链接分析完成', 'info');
+                
+                // 尝试简单的连通性测试
+                testConnectivity(url);
+                
+            } catch (error) {
+                addLog('分析失败：' + error.message, 'error');
+            }
+        }
+
+        // 生成下载命令
+        function generateCommands(url) {
+            const timestamp = new Date().getTime();
+            const outputName = `video_${timestamp}`;
+            
+            // FFmpeg命令
+            const ffmpegCmd = `ffmpeg -i "${url}" -c copy -bsf:a aac_adtstoasc "${outputName}.mp4"`;
+            document.getElementById('ffmpegCommand').textContent = ffmpegCmd;
+            
+            // yt-dlp命令
+            const ytdlpCmd = `yt-dlp -f best "${url}" -o "${outputName}.%(ext)s"`;
+            document.getElementById('ytdlpCommand').textContent = ytdlpCmd;
+            
+            // N_m3u8DL-RE命令
+            const n_m3u8dlCmd = `N_m3u8DL-RE "${url}" --save-name "${outputName}" --save-dir "./downloads"`;
+            document.getElementById('n_m3u8dl_command').textContent = n_m3u8dlCmd;
+            
+            addLog('已生成所有下载命令', 'info');
+        }
+
+        // 测试连通性
+        async function testConnectivity(url) {
+            addLog('测试链接连通性...', 'info');
+            
+            try {
+                // 使用no-cors模式避免CORS问题
+                const response = await fetch(url, { 
+                    mode: 'no-cors',
+                    method: 'HEAD'
+                });
+                
+                addLog('链接连通性测试完成（no-cors模式）', 'info');
+                
+            } catch (error) {
+                addLog('连通性测试失败：' + error.message, 'warning');
+                addLog('这可能是由于CORS限制，建议使用外部工具下载', 'warning');
+            }
+        }
+
+        // 复制命令
+        function copyCommand(type) {
+            let command = '';
+            
+            switch (type) {
+                case 'ffmpeg':
+                    command = document.getElementById('ffmpegCommand').textContent;
+                    break;
+                case 'ytdlp':
+                    command = document.getElementById('ytdlpCommand').textContent;
+                    break;
+                case 'n_m3u8dl':
+                    command = document.getElementById('n_m3u8dl_command').textContent;
+                    break;
+            }
+            
+            if (command && command !== '等待生成命令...') {
+                navigator.clipboard.writeText(command).then(() => {
+                    addLog(`${type}命令已复制到剪贴板`, 'info');
+                }).catch(() => {
+                    addLog('复制失败，请手动复制', 'error');
+                });
+            } else {
+                addLog('请先分析M3U8链接', 'warning');
+            }
+        }
+
+        // 开始下载
+        function startDownload() {
+            const url = document.getElementById('m3u8Url').value.trim();
+            if (!url) {
+                addLog('请输入M3U8链接', 'error');
+                return;
+            }
+
+            if (currentMethod === 'external') {
+                addLog('请使用生成的命令在终端中执行下载', 'info');
+                addLog('推荐使用FFmpeg或N_m3u8DL-RE工具', 'info');
+            } else if (currentMethod === 'browser') {
+                startBrowserDownload(url);
+            } else {
+                addLog('请按照手动下载教程操作', 'info');
+            }
+        }
+
+        // 浏览器下载（实验性）
+        async function startBrowserDownload(url) {
+            addLog('开始浏览器下载（实验性功能）...', 'info');
+            
+            const progressSection = document.getElementById('progressSection');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            progressSection.classList.remove('hidden');
+            progressFill.style.width = '0%';
+            progressText.textContent = '初始化下载...';
+            
+            try {
+                // 尝试获取M3U8内容
+                addLog('尝试获取M3U8文件内容...', 'info');
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const content = await response.text();
+                addLog('M3U8文件获取成功', 'info');
+                
+                // 解析M3U8内容
+                const segments = parseM3U8Content(content, url);
+                addLog(`解析到${segments.length}个视频片段`, 'info');
+                
+                if (segments.length === 0) {
+                    throw new Error('未找到有效的视频片段');
+                }
+                
+                // 下载视频片段
+                const downloadedSegments = [];
+                for (let i = 0; i < segments.length; i++) {
+                    const segment = segments[i];
+                    
+                    progressText.textContent = `下载片段 ${i + 1}/${segments.length}`;
+                    progressFill.style.width = `${(i / segments.length) * 90}%`;
+                    
+                    try {
+                        const segmentResponse = await fetch(segment.url);
+                        const segmentData = await segmentResponse.arrayBuffer();
+                        downloadedSegments.push(new Uint8Array(segmentData));
+                        
+                        addLog(`片段 ${i + 1} 下载完成`, 'info');
+                    } catch (error) {
+                        addLog(`片段 ${i + 1} 下载失败: ${error.message}`, 'error');
+                    }
+                }
+                
+                if (downloadedSegments.length === 0) {
+                    throw new Error('所有片段下载失败');
+                }
+                
+                // 合并片段
+                progressText.textContent = '合并视频片段...';
+                progressFill.style.width = '95%';
+                
+                const mergedData = mergeSegments(downloadedSegments);
+                
+                // 创建下载
+                progressText.textContent = '准备下载...';
+                progressFill.style.width = '100%';
+                
+                const blob = new Blob([mergedData], { type: 'video/mp2t' });
+                const downloadUrl = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `video_${new Date().getTime()}.ts`;
+                a.click();
+                
+                URL.revokeObjectURL(downloadUrl);
+                
+                addLog('下载完成！', 'info');
+                progressText.textContent = '下载完成！';
+                
+            } catch (error) {
+                addLog(`浏览器下载失败: ${error.message}`, 'error');
+                addLog('建议使用外部工具下载', 'warning');
+                progressSection.classList.add('hidden');
+            }
+        }
+
+        // 解析M3U8内容
+        function parseM3U8Content(content, baseUrl) {
+            const lines = content.split('\n');
+            const segments = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                if (line.startsWith('#EXTINF:')) {
+                    const nextLine = lines[i + 1];
+                    if (nextLine && !nextLine.startsWith('#')) {
+                        const segmentUrl = nextLine.trim();
+                        segments.push({
+                            url: resolveUrl(segmentUrl, baseUrl),
+                            duration: parseFloat(line.split(':')[1])
+                        });
+                    }
+                }
+            }
+            
+            return segments;
+        }
+
+        // 解析相对URL
+        function resolveUrl(url, baseUrl) {
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                return url;
+            }
+            
+            try {
+                const base = new URL(baseUrl);
+                return new URL(url, base.origin + base.pathname.substring(0, base.pathname.lastIndexOf('/') + 1)).href;
+            } catch (error) {
+                return url;
+            }
+        }
+
+        // 合并片段
+        function mergeSegments(segments) {
+            const totalLength = segments.reduce((sum, segment) => sum + segment.length, 0);
+            const merged = new Uint8Array(totalLength);
+            
+            let offset = 0;
+            for (const segment of segments) {
+                merged.set(segment, offset);
+                offset += segment.length;
+            }
+            
+            return merged;
+        }
+
+        // 测试链接
+        async function testLink() {
+            const url = document.getElementById('m3u8Url').value.trim();
+            if (!url) {
+                addLog('请输入M3U8链接', 'error');
+                return;
+            }
+
+            addLog('开始测试链接...', 'info');
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'HEAD',
+                    mode: 'no-cors'
+                });
+                
+                addLog('链接测试完成（可能受CORS限制）', 'info');
+                
+            } catch (error) {
+                addLog(`链接测试失败: ${error.message}`, 'error');
+                addLog('这可能是正常的CORS限制，不影响外部工具下载', 'warning');
+            }
+        }
+
+        // 清空所有输入
+        function clearAll() {
+            document.getElementById('m3u8Url').value = '';
+            document.getElementById('ffmpegCommand').textContent = '等待生成命令...';
+            document.getElementById('ytdlpCommand').textContent = '等待生成命令...';
+            document.getElementById('n_m3u8dl_command').textContent = '等待生成命令...';
+            document.getElementById('progressSection').classList.add('hidden');
+            
+            addLog('已清空所有输入', 'info');
+        }
+
+        // 页面加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('M3U8 下载工具 - 修复版已就绪', 'info');
+            
+            // 自动分析如果有URL
+            const url = document.getElementById('m3u8Url').value.trim();
+            if (url) {
+                analyzeM3U8();
+            }
+        });
+    </script>
+</body>
+</html>

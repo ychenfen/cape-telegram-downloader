@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能视频检测下载工具 - 增强版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tool-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tool-link {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .tool-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .tool-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .tool-section h3 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .code-section {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .code-title {
+            color: #90cdf4;
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #2d3748;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeaa7;
+        }
+
+        .alert-info {
+            background: #cce7ff;
+            color: #004085;
+            border-color: #b8daff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .guide-section {
+            background: #e7f3ff;
+            border: 2px solid #b8daff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .guide-section h4 {
+            color: #004085;
+            margin-bottom: 15px;
+        }
+
+        .guide-section ol {
+            margin-left: 20px;
+        }
+
+        .guide-section li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+
+            .tool-switcher {
+                position: static;
+                justify-content: center;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="tool-switcher">
+                <a href="m3u8-downloader-enhanced.html" class="tool-link">🔐 M3U8工具</a>
+                <a href="video-tools-hub.html" class="tool-link">🏠 工具平台</a>
+                <a href="video-test-page.html" class="tool-link">🧪 测试页面</a>
+            </div>
+            <h1>🎬 智能视频检测下载工具 - 增强版</h1>
+            <p>智能分类、优先级排序、完美处理小鹅通等在线课程平台</p>
+        </div>
+
+        <div class="main-content">
+            <!-- 使用指南 -->
+            <div class="guide-section">
+                <h4>📖 使用指南</h4>
+                <ol>
+                    <li><strong>输入目标网页URL</strong> - 在下方输入框中输入要检测的网页地址</li>
+                    <li><strong>生成智能检测代码</strong> - 点击"生成智能检测代码"按钮</li>
+                    <li><strong>复制并执行</strong> - 复制生成的代码到目标网页的控制台执行</li>
+                    <li><strong>查看智能分类结果</strong> - 自动过滤无关链接，按优先级排序</li>
+                    <li><strong>一键下载</strong> - 根据视频类型选择合适的下载方式</li>
+                </ol>
+            </div>
+
+            <!-- 网页检测区域 -->
+            <div class="tool-section">
+                <h3>🌐 智能视频检测</h3>
+                <div class="input-group">
+                    <input type="text" class="input-field" id="targetUrl" placeholder="请输入目标网页URL（支持小鹅通、腾讯视频等）...">
+                    <button class="btn btn-primary" onclick="generateSmartCode()">🔍 生成智能检测代码</button>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-secondary" onclick="generateAdvancedCode()">🔧 高级检测</button>
+                    <button class="btn btn-success" onclick="openM3U8Tool()">🔐 M3U8工具</button>
+                    <button class="btn btn-warning" onclick="openTestPage()">🧪 测试页面</button>
+                    <button class="btn btn-info" onclick="showUsageGuide()">📖 使用指南</button>
+                </div>
+            </div>
+
+            <!-- 检测代码显示区域 -->
+            <div class="code-section hidden" id="codeSection">
+                <div class="code-header">
+                    <div class="code-title">📋 智能检测代码</div>
+                    <button class="copy-btn" onclick="copyCode()">复制代码</button>
+                </div>
+                <pre id="detectionCode"></pre>
+            </div>
+
+            <!-- 结果显示区域 -->
+            <div id="alertContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // 显示提示信息
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-' + type;
+            alertDiv.innerHTML = message;
+            
+            alertContainer.appendChild(alertDiv);
+            
+            setTimeout(function() {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // 生成智能检测代码
+        function generateSmartCode() {
+            const targetUrl = document.getElementById('targetUrl').value.trim();
+            if (!targetUrl) {
+                showAlert('请输入目标网页URL', 'error');
+                return;
+            }
+
+            const smartCode = `// 智能视频检测工具 - 增强版
+// 目标网页: ${targetUrl}
+// 生成时间: ${new Date().toLocaleString()}
+
+(function() {
+    "use strict";
+    
+    console.log("🎬 智能视频检测工具 - 增强版已启动");
+    
+    // 检测到的视频列表
+    window.detectedVideos = [];
+    
+    // 视频类型配置
+    const videoConfig = {
+        extensions: {
+            primary: [".m3u8", ".mp4", ".webm", ".ogg", ".avi", ".mov"],
+            secondary: [".ts", ".flv", ".mkv", ".wmv", ".3gp"]
+        },
+        keywords: {
+            streaming: ["playlist", "stream", "live", "video", "media"],
+            xiaoeknow: ["xiaoeknow", "xet.citv", "vodcq"],
+            common: ["upload", "content", "asset", "resource"]
+        },
+        patterns: {
+            m3u8: /\\.m3u8(\\?[^\\s]*)?$/i,
+            ts: /\\.ts(\\?[^\\s]*)?$/i,
+            mp4: /\\.mp4(\\?[^\\s]*)?$/i
+        }
+    };
+    
+    // 检测视频元素
+    function detectVideoElements() {
+        const videos = [];
+        
+        // 检测video标签
+        document.querySelectorAll("video").forEach(function(video, index) {
+            const src = video.src || video.currentSrc;
+            if (src && isValidVideoUrl(src)) {
+                videos.push({
+                    url: src,
+                    type: getVideoType(src),
+                    element: "video",
+                    index: index,
+                    priority: getPriority(src),
+                    quality: getQuality(src)
+                });
+            }
+            
+            // 检测source标签
+            video.querySelectorAll("source").forEach(function(source) {
+                const src = source.src;
+                if (src && isValidVideoUrl(src)) {
+                    videos.push({
+                        url: src,
+                        type: getVideoType(src),
+                        element: "source",
+                        priority: getPriority(src),
+                        quality: getQuality(src)
+                    });
+                }
+            });
+        });
+        
+        return videos;
+    }
+    
+    // 检测网络请求中的视频
+    function detectNetworkVideos() {
+        const videos = [];
+        
+        if (window.performance && window.performance.getEntriesByType) {
+            const entries = window.performance.getEntriesByType("resource");
+            entries.forEach(function(entry) {
+                if (isValidVideoUrl(entry.name)) {
+                    videos.push({
+                        url: entry.name,
+                        type: getVideoType(entry.name),
+                        element: "network",
+                        size: entry.transferSize || 0,
+                        priority: getPriority(entry.name),
+                        quality: getQuality(entry.name)
+                    });
+                }
+            });
+        }
+        
+        return videos;
+    }
+    
+    // 检测页面链接中的视频
+    function detectPageLinks() {
+        const videos = [];
+        
+        document.querySelectorAll("a").forEach(function(link) {
+            if (isValidVideoUrl(link.href)) {
+                videos.push({
+                    url: link.href,
+                    type: getVideoType(link.href),
+                    element: "link",
+                    priority: getPriority(link.href),
+                    quality: getQuality(link.href)
+                });
+            }
+        });
+        
+        return videos;
+    }
+    
+    // 检测脚本中的视频URL
+    function detectScriptVideos() {
+        const videos = [];
+        
+        document.querySelectorAll("script").forEach(function(script) {
+            if (script.textContent) {
+                const matches = script.textContent.match(/https?:\\/\\/[^\\s"']+\\.(m3u8|mp4|webm|ts)(?:[^\\s"']*)?/gi);
+                if (matches) {
+                    matches.forEach(function(match) {
+                        if (isValidVideoUrl(match)) {
+                            videos.push({
+                                url: match,
+                                type: getVideoType(match),
+                                element: "script",
+                                priority: getPriority(match),
+                                quality: getQuality(match)
+                            });
+                        }
+                    });
+                }
+            }
+        });
+        
+        return videos;
+    }
+    
+    // 判断是否为有效的视频URL
+    function isValidVideoUrl(url) {
+        if (!url || typeof url !== 'string') return false;
+        
+        // 过滤掉明显的非视频URL
+        const excludePatterns = [
+            /favicon\\.ico/i,
+            /\\.css/i,
+            /\\.js/i,
+            /\\.json/i,
+            /\\.xml/i,
+            /\\.txt/i,
+            /\\.png/i,
+            /\\.jpg/i,
+            /\\.jpeg/i,
+            /\\.gif/i,
+            /\\.svg/i,
+            /\\.woff/i,
+            /\\.ttf/i,
+            /google-analytics/i,
+            /facebook\\.com/i,
+            /twitter\\.com/i,
+            /doubleclick/i,
+            /adsystem/i,
+            /analytics/i,
+            /tracking/i,
+            /report/i,
+            /log/i,
+            /stat/i,
+            /beacon/i
+        ];
+        
+        if (excludePatterns.some(pattern => pattern.test(url))) {
+            return false;
+        }
+        
+        // 检查扩展名
+        const allExtensions = videoConfig.extensions.primary.concat(videoConfig.extensions.secondary);
+        const hasVideoExtension = allExtensions.some(function(ext) { 
+            return url.toLowerCase().includes(ext.toLowerCase()); 
+        });
+        
+        if (hasVideoExtension) return true;
+        
+        // 检查视频平台特征
+        const videoSites = ["youtube", "vimeo", "bilibili", "xiaoeknow", "douyin", "tiktok"];
+        return videoSites.some(function(site) { 
+            return url.toLowerCase().includes(site); 
+        });
+    }
+    
+    // 获取视频类型
+    function getVideoType(url) {
+        if (!url) return "unknown";
+        
+        const urlLower = url.toLowerCase();
+        
+        if (urlLower.includes(".m3u8")) return "m3u8";
+        if (urlLower.includes(".ts")) return "ts";
+        if (urlLower.includes(".mp4")) return "mp4";
+        if (urlLower.includes(".webm")) return "webm";
+        if (urlLower.includes(".ogg")) return "ogg";
+        if (urlLower.includes(".avi")) return "avi";
+        if (urlLower.includes(".mov")) return "mov";
+        if (urlLower.includes(".flv")) return "flv";
+        if (urlLower.includes(".mkv")) return "mkv";
+        
+        return "unknown";
+    }
+    
+    // 获取视频优先级
+    function getPriority(url) {
+        if (!url) return 0;
+        
+        const urlLower = url.toLowerCase();
+        let priority = 0;
+        
+        // M3U8 主播放列表优先级最高
+        if (urlLower.includes(".m3u8")) {
+            priority += 100;
+            if (urlLower.includes("playlist")) priority += 50;
+            if (urlLower.includes("master")) priority += 30;
+            if (urlLower.includes("index")) priority += 20;
+            if (urlLower.includes("_eof")) priority += 40; // 小鹅通结束标识
+        }
+        
+        // MP4 直链优先级高
+        if (urlLower.includes(".mp4")) {
+            priority += 80;
+        }
+        
+        // TS 片段优先级较低
+        if (urlLower.includes(".ts")) {
+            priority += 10;
+            // 过滤掉明显的片段文件
+            if (urlLower.match(/_\\d+\\.ts/)) priority -= 5;
+        }
+        
+        // 根据关键词调整优先级
+        if (urlLower.includes("stream")) priority += 30;
+        if (urlLower.includes("live")) priority += 20;
+        if (urlLower.includes("video")) priority += 15;
+        if (urlLower.includes("media")) priority += 10;
+        
+        // 小鹅通平台特别处理
+        if (urlLower.includes("xiaoeknow")) priority += 40;
+        if (urlLower.includes("xet.citv")) priority += 35;
+        if (urlLower.includes("vodcq")) priority += 30;
+        
+        return priority;
+    }
+    
+    // 获取视频质量信息
+    function getQuality(url) {
+        if (!url) return "unknown";
+        
+        const qualityMarkers = {
+            "1920x1080": "1080p",
+            "1280x720": "720p",
+            "854x480": "480p",
+            "640x360": "360p",
+            "1080": "1080p",
+            "720": "720p",
+            "480": "480p",
+            "360": "360p"
+        };
+        
+        for (const marker in qualityMarkers) {
+            if (url.includes(marker)) {
+                return qualityMarkers[marker];
+            }
+        }
+        
+        return "unknown";
+    }
+    
+    // 检测是否加密
+    function isEncrypted(url) {
+        const encryptionKeywords = ["key", "auth", "token", "encrypt", "secure", "sign"];
+        return encryptionKeywords.some(function(keyword) { 
+            return url.toLowerCase().includes(keyword); 
+        });
+    }
+    
+    // 主检测函数
+    function detectAllVideos() {
+        console.log("🔍 开始智能视频检测...");
+        
+        window.detectedVideos = [];
+        
+        // 检测各种视频源
+        const elementVideos = detectVideoElements();
+        const networkVideos = detectNetworkVideos();
+        const linkVideos = detectPageLinks();
+        const scriptVideos = detectScriptVideos();
+        
+        // 合并并去重
+        const allVideos = elementVideos.concat(networkVideos).concat(linkVideos).concat(scriptVideos);
+        window.detectedVideos = allVideos.filter(function(video, index, self) {
+            return index === self.findIndex(function(v) { return v.url === video.url; });
+        });
+        
+        // 按优先级排序
+        window.detectedVideos.sort(function(a, b) {
+            return b.priority - a.priority;
+        });
+        
+        // 添加加密检测
+        window.detectedVideos.forEach(function(video) {
+            video.encrypted = isEncrypted(video.url);
+        });
+        
+        console.log("✅ 智能检测完成，发现", window.detectedVideos.length, "个视频");
+        console.log("📊 检测结果:", window.detectedVideos);
+        
+        // 显示结果
+        showSmartResults();
+        
+        return window.detectedVideos;
+    }
+    
+    // 显示智能结果
+    function showSmartResults() {
+        // 移除旧的显示框
+        const oldDisplay = document.getElementById("smartVideoResults");
+        if (oldDisplay) {
+            oldDisplay.remove();
+        }
+        
+        const total = window.detectedVideos.length;
+        const m3u8Count = window.detectedVideos.filter(function(v) { return v.type === "m3u8"; }).length;
+        const mp4Count = window.detectedVideos.filter(function(v) { return v.type === "mp4"; }).length;
+        const tsCount = window.detectedVideos.filter(function(v) { return v.type === "ts"; }).length;
+        const encryptedCount = window.detectedVideos.filter(function(v) { return v.encrypted; }).length;
+        
+        const display = document.createElement("div");
+        display.id = "smartVideoResults";
+        display.style.cssText = "position: fixed; top: 20px; right: 20px; width: 400px; max-height: 600px; background: white; border: 2px solid #667eea; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); z-index: 999999; overflow-y: auto; font-family: Arial, sans-serif;";
+        
+        let headerHtml = \`<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+            🎬 智能检测结果 (\${total})
+            <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">×</button>
+        </div>\`;
+        
+        let statsHtml = \`<div style="padding: 15px; border-bottom: 1px solid #eee;">
+            <div style="margin-bottom: 10px;"><strong>📊 统计信息：</strong></div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <span style="background: #e7f3ff; padding: 4px 8px; border-radius: 4px; font-size: 12px;">总数: \${total}</span>
+                <span style="background: #fff3cd; padding: 4px 8px; border-radius: 4px; font-size: 12px;">M3U8: \${m3u8Count}</span>
+                <span style="background: #d4edda; padding: 4px 8px; border-radius: 4px; font-size: 12px;">MP4: \${mp4Count}</span>
+                <span style="background: #f8d7da; padding: 4px 8px; border-radius: 4px; font-size: 12px;">TS: \${tsCount}</span>
+                <span style="background: #e2e3e5; padding: 4px 8px; border-radius: 4px; font-size: 12px;">加密: \${encryptedCount}</span>
+            </div>
+        </div>\`;
+        
+        display.innerHTML = headerHtml + statsHtml + '<div id="smartVideoList" style="padding: 15px;"></div>';
+        
+        const videoList = display.querySelector("#smartVideoList");
+        
+        // 按类型分组显示
+        const groups = {
+            "m3u8": { title: "🎬 M3U8播放列表", videos: [], color: "#856404" },
+            "mp4": { title: "🎥 MP4视频", videos: [], color: "#28a745" },
+            "ts": { title: "📹 TS视频片段", videos: [], color: "#6c757d" },
+            "other": { title: "🎦 其他视频", videos: [], color: "#17a2b8" }
+        };
+        
+        window.detectedVideos.forEach(function(video) {
+            const group = groups[video.type] || groups.other;
+            group.videos.push(video);
+        });
+        
+        Object.keys(groups).forEach(function(key) {
+            const group = groups[key];
+            if (group.videos.length === 0) return;
+            
+            const groupDiv = document.createElement("div");
+            groupDiv.style.cssText = "margin-bottom: 20px;";
+            
+            const groupTitle = document.createElement("div");
+            groupTitle.style.cssText = "font-weight: bold; margin-bottom: 10px; color: " + group.color + ";";
+            groupTitle.textContent = group.title + " (" + group.videos.length + ")";
+            groupDiv.appendChild(groupTitle);
+            
+            group.videos.forEach(function(video, index) {
+                const videoItem = document.createElement("div");
+                videoItem.style.cssText = "margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9;";
+                
+                const priorityBadge = \`<span style="background: #17a2b8; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">优先级: \${video.priority}</span>\`;
+                const qualityBadge = video.quality !== "unknown" ? \`<span style="background: #28a745; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">\${video.quality}</span>\` : "";
+                const encryptedBadge = video.encrypted ? \`<span style="background: #f8d7da; color: #721c24; padding: 2px 6px; border-radius: 4px; font-size: 10px;">🔐</span>\` : "";
+                
+                videoItem.innerHTML = \`
+                    <div style="margin-bottom: 8px;">
+                        <span style="background: \${group.color}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px;">\${video.type.toUpperCase()}</span>
+                        \${priorityBadge}
+                        \${qualityBadge}
+                        \${encryptedBadge}
+                    </div>
+                    <div style="font-size: 11px; color: #666; margin-bottom: 8px; word-break: break-all; max-height: 60px; overflow: hidden;">\${video.url}</div>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button onclick="downloadVideo('\${video.url}', '\${video.type}')" style="background: #28a745; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px;">下载</button>
+                        <button onclick="copyVideoUrl('\${video.url}')" style="background: #6c757d; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px;">复制</button>
+                        \${video.type === "m3u8" ? \`<button onclick="openM3U8ToolWithUrl('\${video.url}')" style="background: #ffc107; color: #212529; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px;">M3U8工具</button>\` : ""}
+                    </div>
+                \`;
+                
+                groupDiv.appendChild(videoItem);
+            });
+            
+            videoList.appendChild(groupDiv);
+        });
+        
+        document.body.appendChild(display);
+    }
+    
+    // 下载视频
+    window.downloadVideo = function(url, type) {
+        if (type === "m3u8") {
+            alert("M3U8视频建议使用专用工具下载");
+            return;
+        }
+        
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = url.split("/").pop() || "video";
+        a.target = "_blank";
+        a.click();
+    };
+    
+    // 复制视频URL
+    window.copyVideoUrl = function(url) {
+        navigator.clipboard.writeText(url).then(function() {
+            alert("链接已复制到剪贴板");
+        }).catch(function() {
+            prompt("请复制此链接:", url);
+        });
+    };
+    
+    // 打开M3U8工具
+    window.openM3U8ToolWithUrl = function(url) {
+        const newWindow = window.open("", "_blank");
+        newWindow.document.write(\`
+            <html>
+                <head><title>M3U8工具</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h2>🔐 M3U8视频处理</h2>
+                    <p>检测到的链接：</p>
+                    <textarea style="width: 100%; height: 100px;" readonly>\${url}</textarea>
+                    <br><br>
+                    <button onclick="navigator.clipboard.writeText('\${url}'); alert('已复制');">复制链接</button>
+                    <p style="color: #666; margin-top: 20px;">建议使用专用的M3U8下载工具进行处理</p>
+                </body>
+            </html>
+        \`);
+    };
+    
+    // 立即执行检测
+    detectAllVideos();
+    
+    // 定期检测
+    setInterval(detectAllVideos, 5000);
+    
+    console.log("🎉 智能视频检测工具初始化完成！");
+    
+})();`;
+
+            // 显示代码
+            document.getElementById('codeSection').classList.remove('hidden');
+            document.getElementById('detectionCode').textContent = smartCode;
+            
+            showAlert('智能检测代码已生成！此版本会自动过滤无关链接并按优先级排序', 'success');
+        }
+
+        // 生成高级检测代码
+        function generateAdvancedCode() {
+            const targetUrl = document.getElementById('targetUrl').value.trim();
+            if (!targetUrl) {
+                showAlert('请输入目标网页URL', 'error');
+                return;
+            }
+
+            const advancedCode = `// 高级视频检测工具 - 深度扫描
+console.log("🔍 高级视频检测工具启动");
+
+// 深度扫描所有元素
+const allElements = document.querySelectorAll("*");
+const videoUrls = [];
+const seenUrls = new Set();
+
+// 扫描所有元素的属性
+allElements.forEach(function(el) {
+    const attrs = ["src", "data-src", "data-url", "href", "data-video", "data-stream"];
+    attrs.forEach(function(attr) {
+        const value = el.getAttribute(attr);
+        if (value && !seenUrls.has(value)) {
+            if (value.match(/\\.(mp4|m3u8|webm|ts|avi|mov|flv|mkv)/i)) {
+                videoUrls.push({url: value, source: "attribute:" + attr});
+                seenUrls.add(value);
+            }
+        }
+    });
+});
+
+// 扫描JavaScript变量和对象
+const scripts = document.querySelectorAll("script");
+scripts.forEach(function(script) {
+    if (script.textContent) {
+        const matches = script.textContent.match(/https?:\\/\\/[^\\s"']+\\.(m3u8|mp4|webm|ts|avi|mov|flv|mkv)(?:[^\\s"']*)?/gi);
+        if (matches) {
+            matches.forEach(function(match) {
+                if (!seenUrls.has(match)) {
+                    videoUrls.push({url: match, source: "script"});
+                    seenUrls.add(match);
+                }
+            });
+        }
+    }
+});
+
+// 扫描CSS样式
+const styles = document.querySelectorAll("style, link[rel='stylesheet']");
+styles.forEach(function(style) {
+    if (style.textContent) {
+        const matches = style.textContent.match(/url\\([^)]*\\.(mp4|webm|ogg)[^)]*\\)/gi);
+        if (matches) {
+            matches.forEach(function(match) {
+                const url = match.replace(/url\\(["']?([^"')]+)["']?\\)/, '$1');
+                if (!seenUrls.has(url)) {
+                    videoUrls.push({url: url, source: "css"});
+                    seenUrls.add(url);
+                }
+            });
+        }
+    }
+});
+
+// 扫描window对象
+function scanObject(obj, path = 'window', depth = 0) {
+    if (depth > 3) return; // 限制递归深度
+    
+    try {
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const value = obj[key];
+                if (typeof value === 'string' && value.match(/https?:\\/\\/.*\\.(mp4|m3u8|webm|ts)/i)) {
+                    if (!seenUrls.has(value)) {
+                        videoUrls.push({url: value, source: path + '.' + key});
+                        seenUrls.add(value);
+                    }
+                } else if (typeof value === 'object' && value !== null) {
+                    scanObject(value, path + '.' + key, depth + 1);
+                }
+            }
+        }
+    } catch (e) {
+        // 忽略访问受限的属性
+    }
+}
+
+scanObject(window);
+
+// 显示结果
+console.log("🎯 高级检测完成，发现", videoUrls.length, "个视频");
+videoUrls.forEach(function(item, index) {
+    console.log((index + 1) + ":", item.url, "(" + item.source + ")");
+});
+
+// 创建结果显示
+const resultDiv = document.createElement('div');
+resultDiv.style.cssText = 'position: fixed; top: 20px; left: 20px; width: 400px; max-height: 500px; background: white; border: 2px solid #dc3545; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); z-index: 999999; overflow-y: auto; font-family: Arial, sans-serif;';
+resultDiv.innerHTML = '<div style="background: #dc3545; color: white; padding: 15px; font-weight: bold;">🔍 高级检测结果 (' + videoUrls.length + ')<button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px; float: right;">×</button></div><div style="padding: 15px; font-size: 12px;">' + videoUrls.map(function(item, index) {
+    return '<div style="margin-bottom: 10px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"><strong>' + (index + 1) + ':</strong><br><span style="word-break: break-all;">' + item.url + '</span><br><small style="color: #666;">来源: ' + item.source + '</small></div>';
+}).join('') + '</div>';
+
+document.body.appendChild(resultDiv);
+
+console.log("✅ 高级检测完成");`;
+
+            document.getElementById('codeSection').classList.remove('hidden');
+            document.getElementById('detectionCode').textContent = advancedCode;
+            
+            showAlert('高级检测代码已生成！此版本进行更深度的扫描', 'success');
+        }
+
+        // 复制代码
+        function copyCode() {
+            const code = document.getElementById('detectionCode').textContent;
+            navigator.clipboard.writeText(code).then(function() {
+                showAlert('代码已复制到剪贴板', 'success');
+            }).catch(function() {
+                showAlert('复制失败，请手动复制', 'error');
+            });
+        }
+
+        // 打开M3U8工具
+        function openM3U8Tool() {
+            window.open('m3u8-downloader-enhanced.html', '_blank');
+        }
+
+        // 打开测试页面
+        function openTestPage() {
+            window.open('video-test-page.html', '_blank');
+        }
+
+        // 显示使用指南
+        function showUsageGuide() {
+            const guide = '<div class="alert alert-info">' +
+                '<h4>📖 使用指南</h4>' +
+                '<ol>' +
+                '<li><strong>输入目标网页URL</strong> - 在输入框中输入要检测的网页地址</li>' +
+                '<li><strong>生成智能检测代码</strong> - 点击"生成智能检测代码"按钮</li>' +
+                '<li><strong>复制并执行</strong> - 复制生成的代码到目标网页的控制台执行</li>' +
+                '<li><strong>查看智能分类结果</strong> - 在目标网页右侧会显示分类后的检测结果</li>' +
+                '<li><strong>选择合适的视频</strong> - 根据优先级排序，选择质量最好的视频</li>' +
+                '<li><strong>下载视频</strong> - 点击相应的下载按钮或使用M3U8工具</li>' +
+                '</ol>' +
+                '<p><strong>新功能</strong>：</p>' +
+                '<ul>' +
+                '<li>🎯 智能过滤无关链接（如统计、广告链接）</li>' +
+                '<li>📊 按优先级自动排序</li>' +
+                '<li>🔍 特别优化小鹅通等在线课程平台</li>' +
+                '<li>🎬 按视频类型智能分组显示</li>' +
+                '<li>💎 显示视频质量信息</li>' +
+                '</ul>' +
+                '<p><strong>提示</strong>：对于小鹅通等平台，优先选择M3U8播放列表类型的视频。</p>' +
+                '</div>';
+            
+            const mainContent = document.querySelector('.main-content');
+            const guideDiv = document.createElement('div');
+            guideDiv.innerHTML = guide;
+            mainContent.insertBefore(guideDiv, mainContent.firstChild);
+            
+            setTimeout(function() {
+                guideDiv.remove();
+            }, 15000);
+        }
+
+        // 页面加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎬 智能视频检测工具 - 增强版已加载');
+            
+            // 检查是否有传递的URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const url = urlParams.get('url');
+            if (url) {
+                document.getElementById('targetUrl').value = url;
+            }
+        });
+    </script>
+</body>
+</html>

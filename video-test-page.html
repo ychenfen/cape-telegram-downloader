@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频检测工具测试页面</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .video-container {
+            margin: 20px 0;
+        }
+        video {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .url-list {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .url-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .url-item:last-child {
+            border-bottom: none;
+        }
+        .url-text {
+            flex: 1;
+            word-break: break-all;
+            margin-right: 10px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .status {
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #cce7ff;
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .instructions h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        .code-block {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #dee2e6;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 视频检测工具测试页面</h1>
+        
+        <div class="instructions">
+            <h4>📋 使用说明</h4>
+            <p>这个页面包含了各种视频元素，用于测试视频检测工具的功能。</p>
+            <ol>
+                <li>打开视频检测工具 (video-detector-enhanced.html)</li>
+                <li>在输入框中输入这个页面的URL</li>
+                <li>点击"生成注入代码"并复制代码</li>
+                <li>在这个页面按F12打开控制台，粘贴代码并运行</li>
+                <li>查看检测结果并测试下载功能</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h3>🎥 测试视频元素</h3>
+            <div class="video-container">
+                <video controls>
+                    <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+                    <source src="https://sample-videos.com/zip/10/webm/SampleVideo_1280x720_1mb.webm" type="video/webm">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+            <p>这是一个标准的HTML5视频元素，包含MP4和WebM格式的源文件。</p>
+        </div>
+
+        <div class="test-section">
+            <h3>🔗 测试视频链接</h3>
+            <div class="url-list">
+                <div class="url-item">
+                    <div class="url-text">https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4</div>
+                    <button class="btn" onclick="testDownload('https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4')">测试下载</button>
+                </div>
+                <div class="url-item">
+                    <div class="url-text">https://sample-videos.com/zip/10/webm/SampleVideo_1280x720_1mb.webm</div>
+                    <button class="btn" onclick="testDownload('https://sample-videos.com/zip/10/webm/SampleVideo_1280x720_1mb.webm')">测试下载</button>
+                </div>
+                <div class="url-item">
+                    <div class="url-text">https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8</div>
+                    <button class="btn" onclick="testDownload('https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8')">测试M3U8</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🛠️ 快速测试工具</h3>
+            <button class="btn" onclick="openVideoDetector()">打开视频检测工具</button>
+            <button class="btn" onclick="openM3U8Tool()">打开M3U8下载工具</button>
+            <button class="btn btn-secondary" onclick="injectDetector()">直接注入检测器</button>
+            <button class="btn btn-secondary" onclick="simulateVideoRequests()">模拟视频请求</button>
+        </div>
+
+        <div id="results" class="test-section" style="display: none;">
+            <h3>📊 检测结果</h3>
+            <div id="resultContent"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 调试信息</h3>
+            <div class="code-block" id="debugInfo">
+                等待检测结果...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let detectedVideos = [];
+        let detectionActive = false;
+
+        // 测试下载功能
+        function testDownload(url) {
+            try {
+                console.log('🎥 测试下载:', url);
+                updateDebugInfo('开始测试下载: ' + url);
+                
+                // 检查URL格式
+                if (!url || !url.startsWith('http')) {
+                    alert('无效的视频链接');
+                    updateDebugInfo('❌ 无效链接');
+                    return;
+                }
+                
+                // 对于M3U8文件的特殊处理
+                if (url.includes('.m3u8')) {
+                    updateDebugInfo('🎬 检测到M3U8文件');
+                    const userChoice = confirm('检测到M3U8文件，是否使用专用工具下载？\\n点击"确定"打开M3U8工具，点击"取消"直接下载');
+                    
+                    if (userChoice) {
+                        openM3U8Tool(url);
+                        return;
+                    }
+                }
+                
+                // 尝试直接下载
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = url.split('/').pop() || 'video';
+                a.target = '_blank';
+                a.style.display = 'none';
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                updateDebugInfo('✅ 下载链接已创建');
+                showStatus('下载已开始（如果没有反应，可能是跨域限制）', 'success');
+                
+                // 如果直接下载可能失败，提供备用方案
+                setTimeout(() => {
+                    const fallback = confirm('如果下载没有开始，是否在新窗口打开链接？');
+                    if (fallback) {
+                        window.open(url, '_blank');
+                        updateDebugInfo('🔗 在新窗口打开链接');
+                    }
+                }, 2000);
+                
+            } catch (error) {
+                console.error('❌ 下载失败:', error);
+                updateDebugInfo('❌ 下载失败: ' + error.message);
+                showStatus('下载失败: ' + error.message, 'error');
+                
+                // 提供手动下载选项
+                const manual = confirm('自动下载失败，是否在新窗口打开链接进行手动下载？');
+                if (manual) {
+                    window.open(url, '_blank');
+                }
+            }
+        }
+
+        // 打开视频检测工具
+        function openVideoDetector() {
+            const currentUrl = encodeURIComponent(window.location.href);
+            window.open(`video-detector-enhanced.html?url=${currentUrl}`, '_blank');
+        }
+
+        // 打开M3U8工具
+        function openM3U8Tool(url = '') {
+            const m3u8Url = url || 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8';
+            const toolUrl = `m3u8-downloader-enhanced.html?url=${encodeURIComponent(m3u8Url)}`;
+            window.open(toolUrl, '_blank');
+        }
+
+        // 直接注入检测器
+        function injectDetector() {
+            console.log('🔧 注入视频检测器...');
+            updateDebugInfo('正在注入视频检测器...');
+            
+            // 模拟注入检测器的代码
+            const injectionCode = `
+                console.log('🎬 视频检测器已注入');
+                
+                // 检测页面中的视频
+                const videos = [];
+                document.querySelectorAll('video').forEach((video, index) => {
+                    if (video.src) {
+                        videos.push({
+                            type: 'video',
+                            url: video.src,
+                            title: 'Video Element ' + (index + 1)
+                        });
+                    }
+                    video.querySelectorAll('source').forEach((source, srcIndex) => {
+                        if (source.src) {
+                            videos.push({
+                                type: 'source',
+                                url: source.src,
+                                title: 'Video Source ' + (index + 1) + '-' + (srcIndex + 1)
+                            });
+                        }
+                    });
+                });
+                
+                console.log('🎥 检测到视频:', videos);
+                
+                // 显示结果
+                if (videos.length > 0) {
+                    const resultDiv = document.getElementById('resultContent');
+                    let html = '<h4>检测到 ' + videos.length + ' 个视频元素：</h4>';
+                    videos.forEach(video => {
+                        html += '<div class="url-item">';
+                        html += '<div class="url-text">' + video.url + '</div>';
+                        html += '<button class="btn" onclick="testDownload(\\'' + video.url + '\\')">下载</button>';
+                        html += '</div>';
+                    });
+                    resultDiv.innerHTML = html;
+                    document.getElementById('results').style.display = 'block';
+                }
+                
+                return videos;
+            `;
+            
+            // 执行注入代码
+            try {
+                const result = eval(injectionCode);
+                detectedVideos = result;
+                updateDebugInfo('✅ 检测器注入成功，找到 ' + result.length + ' 个视频');
+                showStatus('检测器注入成功！找到 ' + result.length + ' 个视频元素', 'success');
+            } catch (error) {
+                updateDebugInfo('❌ 注入失败: ' + error.message);
+                showStatus('注入失败: ' + error.message, 'error');
+            }
+        }
+
+        // 模拟视频请求
+        function simulateVideoRequests() {
+            updateDebugInfo('🌐 模拟视频请求...');
+            
+            const testUrls = [
+                'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
+                'https://sample-videos.com/zip/10/webm/SampleVideo_1280x720_1mb.webm',
+                'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8'
+            ];
+            
+            testUrls.forEach((url, index) => {
+                setTimeout(() => {
+                    console.log('🎥 模拟请求:', url);
+                    updateDebugInfo(`模拟请求 ${index + 1}: ${url}`);
+                    
+                    // 模拟网络请求
+                    fetch(url, { method: 'HEAD' })
+                        .then(response => {
+                            if (response.ok) {
+                                updateDebugInfo(`✅ 请求成功: ${url}`);
+                            } else {
+                                updateDebugInfo(`⚠️ 请求失败: ${url} (${response.status})`);
+                            }
+                        })
+                        .catch(error => {
+                            updateDebugInfo(`❌ 请求错误: ${url} (${error.message})`);
+                        });
+                }, index * 1000);
+            });
+        }
+
+        // 更新调试信息
+        function updateDebugInfo(message) {
+            const debugDiv = document.getElementById('debugInfo');
+            const timestamp = new Date().toLocaleTimeString();
+            debugDiv.innerHTML += `[${timestamp}] ${message}<br>`;
+            debugDiv.scrollTop = debugDiv.scrollHeight;
+        }
+
+        // 显示状态信息
+        function showStatus(message, type = 'info') {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            
+            document.body.appendChild(statusDiv);
+            
+            setTimeout(() => {
+                statusDiv.remove();
+            }, 5000);
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDebugInfo('📄 测试页面加载完成');
+            updateDebugInfo('🔗 当前页面URL: ' + window.location.href);
+            
+            // 检查是否有视频元素
+            const videoElements = document.querySelectorAll('video');
+            updateDebugInfo(`🎥 页面包含 ${videoElements.length} 个视频元素`);
+            
+            // 自动检测视频
+            setTimeout(() => {
+                if (videoElements.length > 0) {
+                    updateDebugInfo('🎬 自动检测视频元素...');
+                    injectDetector();
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

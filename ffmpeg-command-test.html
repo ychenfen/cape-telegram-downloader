@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFmpeg命令测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .command {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            margin-top: 10px;
+            word-break: break-all;
+        }
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .copy-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 FFmpeg命令生成测试</h1>
+        <p>测试我们的工具是否会生成正确的FFmpeg命令</p>
+        
+        <div class="input-group">
+            <label for="m3u8Url">M3U8 URL:</label>
+            <input type="text" id="m3u8Url" placeholder="请输入M3U8链接..." 
+                   value="https://example.com/video.m3u8?param1=value1&param2=value2">
+        </div>
+        
+        <div class="input-group">
+            <label for="format">输出格式:</label>
+            <select id="format" style="padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                <option value="mp4">MP4</option>
+                <option value="mkv">MKV</option>
+                <option value="ts">TS</option>
+            </select>
+        </div>
+        
+        <button class="btn" onclick="generateCommand()">生成FFmpeg命令</button>
+        
+        <div class="output" id="output" style="display: none;">
+            <h3>生成的命令:</h3>
+            <div class="command" id="command"></div>
+            <button class="copy-btn" onclick="copyCommand()">复制命令</button>
+            
+            <h3>命令验证:</h3>
+            <div id="validation"></div>
+        </div>
+    </div>
+
+    <script>
+        function generateCommand() {
+            const url = document.getElementById('m3u8Url').value.trim();
+            const format = document.getElementById('format').value;
+            
+            if (!url) {
+                alert('请输入M3U8链接');
+                return;
+            }
+            
+            const timestamp = Date.now();
+            
+            // 使用与工具中相同的逻辑
+            const command = `ffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto -i "${url}" -c copy "video_${timestamp}.${format}" -y`;
+            
+            // 显示结果
+            document.getElementById('command').textContent = command;
+            document.getElementById('output').style.display = 'block';
+            
+            // 验证命令
+            validateCommand(command);
+        }
+        
+        function validateCommand(command) {
+            const validation = document.getElementById('validation');
+            const issues = [];
+            
+            // 检查引号配对
+            const quotes = command.match(/"/g) || [];
+            if (quotes.length % 2 !== 0) {
+                issues.push('❌ 引号不配对');
+            } else {
+                issues.push('✅ 引号配对正确');
+            }
+            
+            // 检查URL部分
+            const urlMatch = command.match(/-i "([^"]+)"/);
+            if (urlMatch) {
+                issues.push(`✅ URL正确提取: ${urlMatch[1]}`);
+            } else {
+                issues.push('❌ URL提取失败');
+            }
+            
+            // 检查输出文件
+            const outputMatch = command.match(/"(video_\d+\.\w+)"/);
+            if (outputMatch) {
+                issues.push(`✅ 输出文件正确: ${outputMatch[1]}`);
+            } else {
+                issues.push('❌ 输出文件格式错误');
+            }
+            
+            // 检查是否有多余的引号
+            if (command.includes('""')) {
+                issues.push('❌ 发现多余的引号');
+            } else {
+                issues.push('✅ 没有多余的引号');
+            }
+            
+            validation.innerHTML = issues.join('<br>');
+        }
+        
+        function copyCommand() {
+            const command = document.getElementById('command').textContent;
+            navigator.clipboard.writeText(command).then(() => {
+                alert('命令已复制到剪贴板');
+            }).catch(() => {
+                alert('复制失败，请手动复制');
+            });
+        }
+    </script>
+</body>
+</html>

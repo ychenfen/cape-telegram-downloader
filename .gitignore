@@ -1,0 +1,78 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Personal Downloads and Media Files
+downloads/
+tdl/downloads/
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.wmv
+*.flv
+*.webm
+*.ts
+*.m3u8
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Security and sensitive files
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*.env
+*.env.local
+*.env.production
+*secret*
+*password*
+*token*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-*
+*.code-workspace
+
+# Build and compilation artifacts
+dist/
+build/
+node_modules/
+vendor/
+target/
+bin/
+obj/
+
+# Go specific
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work.sum
+
+# Documentation build artifacts
+docs/resources/_gen/
+
+# Test artifacts
+test/testdata/tdl/
