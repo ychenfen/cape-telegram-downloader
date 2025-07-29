@@ -10,6 +10,9 @@
 
 *Comprehensive video processing tools for downloading, converting, and managing multimedia content*
 
+### 🏖️ **Special Feature: Cape Website Video Downloader | 海角网站视频下载器**
+**✨ Optimized for Cape (海角) website video extraction with advanced M3U8 stream handling**
+
 </div>
 
 ---
@@ -48,6 +51,13 @@ Complete Telegram media downloader with advanced features:
 
 ### 🎯 Use Cases
 
+#### 🏖️ Cape Website Video Downloads (海角网站视频下载)
+- **Specialized Support**: Optimized for Cape (海角) website video extraction
+- **Encrypted Stream Handling**: Advanced support for encrypted M3U8 streams commonly used by Cape sites
+- **Automatic Detection**: Smart detection of video URLs from Cape website pages
+- **Batch Processing**: Download multiple videos from Cape galleries and collections
+- **Format Flexibility**: Convert downloaded content to various formats (MP4, AVI, etc.)
+
 #### 📺 M3U8 Stream Processing
 - **Educational Content**: Download online courses from platforms like Coursera, Udemy
 - **Live Streams**: Capture live broadcasts and webinars
@@ -74,13 +84,27 @@ Complete Telegram media downloader with advanced features:
 
 ### 🚀 Quick Start
 
-#### 1. Web Tools (Recommended for Beginners)
+#### 1. Cape Website Video Downloads (海角网站下载)
+```bash
+# Method 1: Using web interface (Recommended)
+open video-detector-enhanced.html
+# Paste Cape website URL to automatically detect video streams
+
+# Method 2: Direct M3U8 download if you have the stream URL
+./m3u8-encrypted-downloader.sh "https://cape-site.com/stream.m3u8" "cape_video.mp4"
+
+# Method 3: Using the integrated hub
+open video-tools-hub.html
+# Navigate to video detector for Cape site processing
+```
+
+#### 2. Web Tools (Recommended for Beginners)
 ```bash
 # Open the main hub
 open video-tools-hub.html
 ```
 
-#### 2. M3U8 Downloads
+#### 3. M3U8 Downloads
 ```bash
 # For encrypted M3U8 streams
 ./m3u8-encrypted-downloader.sh "https://example.com/playlist.m3u8" "output.mp4"
@@ -193,6 +217,13 @@ This project is licensed under the MIT License - see individual tool licenses fo
 
 ### 🎯 使用场景
 
+#### 🏖️ 海角网站视频下载专项支持
+- **专门优化**: 针对海角网站视频提取进行了专门优化
+- **加密流处理**: 高级支持海角网站常用的加密M3U8流
+- **自动检测**: 智能检测海角网站页面中的视频URL
+- **批量处理**: 批量下载海角画廊和合集中的多个视频
+- **格式灵活**: 将下载内容转换为各种格式（MP4、AVI等）
+
 #### 📺 M3U8流处理
 - **教育内容**: 从Coursera、Udemy等平台下载在线课程
 - **直播流**: 捕获直播和网络研讨会
@@ -219,13 +250,27 @@ This project is licensed under the MIT License - see individual tool licenses fo
 
 ### 🚀 快速开始
 
-#### 1. 网页工具（推荐新手使用）
+#### 1. 海角网站视频下载（重点推荐）
+```bash
+# 方法1: 使用网页界面（推荐）
+open video-detector-enhanced.html
+# 粘贴海角网站URL自动检测视频流
+
+# 方法2: 如果已有流URL，直接下载M3U8
+./m3u8-encrypted-downloader.sh "https://海角网站.com/stream.m3u8" "海角视频.mp4"
+
+# 方法3: 使用集成枢纽
+open video-tools-hub.html
+# 导航到视频检测器进行海角网站处理
+```
+
+#### 2. 网页工具（推荐新手使用）
 ```bash
 # 打开主要枢纽
 open video-tools-hub.html
 ```
 
-#### 2. M3U8下载
+#### 3. M3U8下载
 ```bash
 # 下载加密的M3U8流
 ./m3u8-encrypted-downloader.sh "https://example.com/playlist.m3u8" "output.mp4"
